@@ -1,0 +1,9 @@
+{
+  "name": "mmt-weatheronetheme",
+  "version": "0.1.0",
+  "description": "Theme for MagicMirror weather module inspired by MMM-OneCallWeather.",
+  "private": true,
+  "scripts": {
+    "demo": "cd ../../ && MM_CONFIG_FILE=modules/MMT-WeatherOneTheme/demo.config.js node --run start:dev"
+  }
+}

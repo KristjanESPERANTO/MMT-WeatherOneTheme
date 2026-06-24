@@ -1,0 +1,154 @@
+{% macro humidityValue() %}
+  {% if current.humidity is defined and current.humidity is not none %}
+    {{ current.humidity | decimalSymbol }}<span class="mmtw-unit">%</span>
+  {% endif %}
+{% endmacro %}
+{% if current %}
+  {% set iconSet = (config.iconset or "") | lower %}
+  {% set hasCustomIconSet = iconSet in ["mm", "1s", "5a", "2s", "3s", "2a", "4af", "4al"] %}
+  {% set iconTypeMap = {
+    "day-sunny": "01d",
+    "night-clear": "01n",
+    "day-cloudy": "02d",
+    "night-alt-cloudy": "02n",
+    "night-cloudy": "04n",
+    "day-sunny-overcast": "02d",
+    "night-alt-partly-cloudy": "02n",
+    "cloud": "03d",
+    "cloudy": "04d",
+    "cloudy-windy": "04d",
+    "night-alt-cloudy-windy": "04n",
+    "day-showers": "09d",
+    "night-alt-showers": "09n",
+    "night-showers": "09n",
+    "showers": "09d",
+    "day-sprinkle": "09d",
+    "night-alt-sprinkle": "09n",
+    "night-sprinkle": "09n",
+    "sprinkle": "09d",
+    "day-rain": "10d",
+    "night-alt-rain": "10n",
+    "night-rain": "10n",
+    "rain": "10d",
+    "day-rain-mix": "09d",
+    "night-alt-rain-mix": "09n",
+    "night-rain-mix": "09n",
+    "rain-mix": "09d",
+    "day-sleet": "09d",
+    "night-alt-sleet": "09n",
+    "night-sleet": "09n",
+    "sleet": "09d",
+    "day-sleet-storm": "11d",
+    "night-alt-sleet-storm": "11n",
+    "night-sleet-storm": "11n",
+    "day-storm-showers": "11d",
+    "night-alt-storm-showers": "11n",
+    "day-hail": "09d",
+    "night-alt-hail": "09n",
+    "day-thunderstorm": "11d",
+    "night-alt-thunderstorm": "11n",
+    "night-thunderstorm": "11n",
+    "day-snow-thunderstorm": "11d",
+    "night-snow-thunderstorm": "11n",
+    "thunderstorm": "11d",
+    "day-snow": "13d",
+    "night-alt-snow-wind": "13n",
+    "night-alt-snow": "13n",
+    "night-partly-cloudy": "02n",
+    "night-snow": "13n",
+    "day-snow-wind": "13d",
+    "night-snow-wind": "13n",
+    "snowflake-cold": "13d",
+    "snow": "13d",
+    "day-fog": "50d",
+    "night-fog": "50n",
+    "day-haze": "50d",
+    "smoke": "50d",
+    "dust": "50d",
+    "windy": "04d",
+    "strong-wind": "04d",
+    "fog": "50d",
+    "mist": "50d"
+  } %}
+  {% if hasCustomIconSet %}
+    {% set iconFormat = "png" if iconSet == "1s" else "svg" %}
+  {% endif %}
+  <div class="mmtw-current">
+    <div class="mmtw-current-main">
+      {% if current.weatherType %}
+        {% set mappedIconType = iconTypeMap[current.weatherType] or current.weatherType %}
+        {% set customIconType = mappedIconType if mappedIconType in ["01d", "01n", "02d", "02n", "03d", "03n", "04d", "04n", "09d", "09n", "10d", "10n", "11d", "11n", "13d", "13n", "50d", "50n"] else "03d" %}
+        {% if hasCustomIconSet %}
+          <img class="mmtw-current-icon-img{% if iconSet == \"2a\" %} mmtw-icon-img-2a-current{% endif %}" src="modules/MMT-WeatherOneTheme/icons/{{ iconSet }}/{{ customIconType }}.{{ iconFormat }}" alt="{{ customIconType }}">
+        {% else %}
+          <span class="wi weathericon wi-{{ current.weatherType }} mmtw-current-icon"></span>
+        {% endif %}
+      {% endif %}
+      <div class="mmtw-current-temp-wrap">
+        <div class="mmtw-current-temp">{{ current.temperature | roundValue | unit("temperature") | decimalSymbol }}</div>
+        {% if config.showFeelsLike %}
+          <div class="mmtw-feels-like">{{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if not config.onlyTemp %}
+      <div class="mmtw-current-meta">
+        <span class="mmtw-badge">
+          <span class="wi wi-strong-wind"></span>
+          <span>{{ current.windSpeed | unit("wind") | round }}</span>
+          {% if config.showWindDirection %}
+            {% if config.showWindDirectionAsArrow %}
+              <i class="fas fa-long-arrow-alt-down" style="transform: rotate({{ current.windFromDirection }}deg)"></i>
+            {% else %}
+              <span>{{ current.cardinalWindDirection() | translate }}</span>
+            {% endif %}
+          {% endif %}
+        </span>
+
+        {% if config.showHumidity != "none" and current.humidity is defined and current.humidity is not none %}
+          <span class="mmtw-badge">
+            <span class="wi wi-humidity"></span>
+            <span>{{ humidityValue() }}</span>
+          </span>
+        {% endif %}
+
+        {% if config.showPrecipitationProbability and current.precipitationProbability is defined and current.precipitationProbability is not none %}
+          <span class="mmtw-badge">
+            <span class="wi wi-raindrop"></span>
+            <span>{{ current.precipitationProbability }}<span class="mmtw-unit">%</span></span>
+          </span>
+        {% endif %}
+
+        {% if config.showPrecipitationAmount and current.precipitationAmount is defined and current.precipitationAmount is not none %}
+          <span class="mmtw-badge">
+            <span class="wi wi-umbrella"></span>
+            <span>{{ current.precipitationAmount | unit("precip", current.precipitationUnits) }}</span>
+          </span>
+        {% endif %}
+
+        {% if config.showUVIndex and current.uvIndex is defined and current.uvIndex is not none %}
+          <span class="mmtw-badge">
+            <span class="wi wi-hot"></span>
+            <span>{{ current.uvIndex }}</span>
+          </span>
+        {% endif %}
+
+        {% if config.showSun and current.nextSunAction() %}
+          <span class="mmtw-badge">
+            <span class="wi wi-{{ current.nextSunAction() }}"></span>
+            <span>
+              {% if current.nextSunAction() === "sunset" %}
+                {{ current.sunset | formatTime }}
+              {% else %}
+                {{ current.sunrise | formatTime }}
+              {% endif %}
+            </span>
+          </span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+{% else %}
+  <div class="dimmed light small">{{ "LOADING" | translate }}</div>
+{% endif %}

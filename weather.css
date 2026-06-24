@@ -1,0 +1,296 @@
+.weather {
+  --mmtw-gap-xs: 0.3rem;
+  --mmtw-gap-sm: 0.55rem;
+  --mmtw-gap-md: 0.8rem;
+  --mmtw-gap-lg: 1.1rem;
+  --mmtw-temp-max: #ff7b74;
+  --mmtw-temp-min: #8ab9ff;
+  --mmtw-precip: #7cc5ff;
+  --mmtw-muted: rgba(255, 255, 255, 0.92);
+  --mmtw-surface: rgba(255, 255, 255, 0.05);
+  --mmtw-border: rgba(255, 255, 255, 0.14);
+}
+
+.weather .mmtw-current,
+.weather .mmtw-forecast,
+.weather .mmtw-hourly {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mmtw-gap-sm);
+  width: fit-content;
+  max-width: fit-content;
+}
+
+.weather .mmtw-current {
+  padding: 0.45rem 0.6rem;
+}
+
+.weather .mmtw-current-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mmtw-gap-lg);
+}
+
+.weather .mmtw-current-icon {
+  font-size: 5.1rem;
+  line-height: 1;
+  opacity: 1;
+}
+
+.weather .mmtw-current-icon-img {
+  width: 5.1rem;
+  height: 5.1rem;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.weather .mmtw-current-temp-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mmtw-gap-xs);
+}
+
+.weather .mmtw-current-temp {
+  font-size: 2.8rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.weather .mmtw-feels-like {
+  font-size: 0.95rem;
+  color: var(--mmtw-muted);
+  white-space: nowrap;
+}
+
+.weather .mmtw-current-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--mmtw-gap-sm);
+  margin-top: 0.1rem;
+}
+
+.weather .mmtw-badge,
+.weather .mmtw-extra-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--mmtw-border);
+  border-radius: 999px;
+  font-size: 0.86rem;
+  color: var(--mmtw-muted);
+  white-space: nowrap;
+}
+
+.weather .mmtw-badge .wi,
+.weather .mmtw-extra-item .wi {
+  font-size: 0.95em;
+  opacity: 1;
+  color: #fff;
+}
+
+.weather .mmtw-table-wrap {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.weather .mmtw-table {
+  border-collapse: collapse;
+  display: inline-table;
+  table-layout: auto;
+  width: auto;
+}
+
+.weather .mmtw-table td {
+  padding: 0.32rem 0.5rem;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.weather .mmtw-forecast .mmtw-table td,
+.weather .mmtw-hourly .mmtw-table td {
+  padding: 0.1rem 0.3rem;
+}
+
+.weather .mmtw-col-day {
+  color: var(--mmtw-muted);
+  text-align: left;
+}
+
+.weather .mmtw-col-icon {
+  text-align: center;
+  width: 2.75rem;
+  vertical-align: middle;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.weather .mmtw-icon-slot {
+  min-height: 2.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather .mmtw-forecast .mmtw-icon-slot,
+.weather .mmtw-hourly .mmtw-icon-slot {
+  min-height: 1.75rem;
+}
+
+.weather .mmtw-forecast .mmtw-col-icon .mmtw-icon-img,
+.weather .mmtw-hourly .mmtw-col-icon .mmtw-icon-img,
+.weather .mmtw-forecast .mmtw-col-icon .wi,
+.weather .mmtw-hourly .mmtw-col-icon .wi {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.weather .mmtw-col-temp {
+  text-align: left;
+}
+
+.weather .mmtw-col-metric {
+  text-align: left;
+  color: #fff;
+}
+
+.weather .mmtw-col-metric .wi {
+  margin-right: 0.2rem;
+}
+
+.weather .mmtw-empty {
+  opacity: 0.65;
+}
+
+.weather .mmtw-unit {
+  opacity: 0.75;
+  margin-left: 0.05rem;
+}
+
+.weather .mmtw-day,
+.weather .mmtw-hour-time {
+  color: var(--mmtw-muted);
+  text-align: left;
+}
+
+.weather .mmtw-icon-wrap,
+.weather .mmtw-hour-icon-wrap {
+  text-align: center;
+}
+
+.weather .mmtw-icon,
+.weather .mmtw-hour-icon {
+  font-size: 1.7rem;
+  opacity: 1;
+  color: #fff;
+}
+
+.weather .mmtw-icon-img {
+  width: 1.7rem;
+  height: 1.7rem;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Improve contrast for monochrome sets across light/dark backgrounds. */
+.weather .mmtw-current-icon-img[src*="/mm/"],
+.weather .mmtw-icon-img[src*="/mm/"] {
+  filter: grayscale(1) brightness(0) invert(1) drop-shadow(0 0 1px rgba(0, 0, 0, 0.95)) !important;
+}
+
+.weather .mmtw-current-icon-img.mmtw-icon-img-2a-current {
+  width: 5.1rem;
+  height: 5.1rem;
+}
+
+.weather .mmtw-icon-img.mmtw-icon-img-2a-compact {
+  width: 2.45rem;
+  height: 2.45rem;
+}
+
+/* Hard fallback so 2a sizing still applies even if template class is missing. */
+.weather .mmtw-current-icon-img[src*="/2a/"] {
+  width: 5.1rem !important;
+  height: 5.1rem !important;
+}
+
+.weather .mmtw-icon-img[src*="/2a/"] {
+  width: 2.45rem !important;
+  height: 2.45rem !important;
+}
+
+.weather .mmtw-col-icon .wi,
+.weather .mmtw-col-icon .mmtw-icon-img {
+  display: block;
+  margin: 0;
+  line-height: 1;
+}
+
+.weather .mmtw-temps {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0.25rem;
+}
+
+.weather .mmtw-max {
+  color: var(--mmtw-temp-max);
+}
+
+.weather .mmtw-min {
+  color: var(--mmtw-temp-min);
+}
+
+.weather .mmtw-temp-sep {
+  opacity: 0.5;
+}
+
+.weather .mmtw-table-row.colored .mmtw-max {
+  color: var(--mmtw-temp-max);
+}
+
+.weather .mmtw-table-row.colored .mmtw-min {
+  color: var(--mmtw-temp-min);
+}
+
+.weather .mmtw-extra-item .wi-raindrop,
+.weather .mmtw-extra-item .wi-umbrella,
+.weather .mmtw-badge .wi-raindrop,
+.weather .mmtw-badge .wi-umbrella {
+  color: var(--mmtw-precip);
+}
+
+@media (max-width: 600px) {
+  .weather .mmtw-table td {
+    padding: 0.26rem 0.4rem;
+  }
+
+  .weather .mmtw-forecast .mmtw-table td,
+  .weather .mmtw-hourly .mmtw-table td {
+    padding: 0.08rem 0.22rem;
+  }
+
+  .weather .mmtw-forecast .mmtw-col-icon .mmtw-icon-img,
+  .weather .mmtw-hourly .mmtw-col-icon .mmtw-icon-img,
+  .weather .mmtw-forecast .mmtw-col-icon .wi,
+  .weather .mmtw-hourly .mmtw-col-icon .wi {
+    width: 1.38rem;
+    height: 1.38rem;
+    font-size: 1.38rem;
+  }
+
+  .weather .mmtw-current-main {
+    gap: var(--mmtw-gap-md);
+  }
+
+  .weather .mmtw-current-temp {
+    font-size: 2.35rem;
+  }
+}

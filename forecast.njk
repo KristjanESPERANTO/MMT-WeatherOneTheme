@@ -1,0 +1,143 @@
+{% if forecast %}
+  {% set iconSet = (config.iconset or "") | lower %}
+  {% set hasCustomIconSet = iconSet in ["mm", "1s", "5a", "2s", "3s", "2a", "4af", "4al"] %}
+  {% set iconTypeMap = {
+    "day-sunny": "01d",
+    "night-clear": "01n",
+    "day-cloudy": "02d",
+    "night-alt-cloudy": "02n",
+    "night-cloudy": "04n",
+    "day-sunny-overcast": "02d",
+    "night-alt-partly-cloudy": "02n",
+    "cloud": "03d",
+    "cloudy": "04d",
+    "cloudy-windy": "04d",
+    "night-alt-cloudy-windy": "04n",
+    "day-showers": "09d",
+    "night-alt-showers": "09n",
+    "night-showers": "09n",
+    "showers": "09d",
+    "day-sprinkle": "09d",
+    "night-alt-sprinkle": "09n",
+    "night-sprinkle": "09n",
+    "sprinkle": "09d",
+    "day-rain": "10d",
+    "night-alt-rain": "10n",
+    "night-rain": "10n",
+    "rain": "10d",
+    "day-rain-mix": "09d",
+    "night-alt-rain-mix": "09n",
+    "night-rain-mix": "09n",
+    "rain-mix": "09d",
+    "day-sleet": "09d",
+    "night-alt-sleet": "09n",
+    "night-sleet": "09n",
+    "sleet": "09d",
+    "day-sleet-storm": "11d",
+    "night-alt-sleet-storm": "11n",
+    "night-sleet-storm": "11n",
+    "day-storm-showers": "11d",
+    "night-alt-storm-showers": "11n",
+    "day-hail": "09d",
+    "night-alt-hail": "09n",
+    "day-thunderstorm": "11d",
+    "night-alt-thunderstorm": "11n",
+    "night-thunderstorm": "11n",
+    "day-snow-thunderstorm": "11d",
+    "night-snow-thunderstorm": "11n",
+    "thunderstorm": "11d",
+    "day-snow": "13d",
+    "night-alt-snow-wind": "13n",
+    "night-alt-snow": "13n",
+    "night-partly-cloudy": "02n",
+    "night-snow": "13n",
+    "day-snow-wind": "13d",
+    "night-snow-wind": "13n",
+    "snowflake-cold": "13d",
+    "snow": "13d",
+    "day-fog": "50d",
+    "night-fog": "50n",
+    "day-haze": "50d",
+    "smoke": "50d",
+    "dust": "50d",
+    "windy": "04d",
+    "strong-wind": "04d",
+    "fog": "50d",
+    "mist": "50d"
+  } %}
+  {% if hasCustomIconSet %}
+    {% set iconFormat = "png" if iconSet == "1s" else "svg" %}
+  {% endif %}
+  {% set numSteps = forecast | calcNumSteps %}
+  {% set currentStep = 0 %}
+  {% if config.ignoreToday %}
+    {% set forecast = forecast.splice(1) %}
+  {% endif %}
+  {% set forecast = forecast.slice(0, numSteps) %}
+
+  <div class="mmtw-forecast mmtw-table-wrap">
+    <table class="mmtw-table mmtw-table-forecast">
+      <tbody>
+        {% for f in forecast %}
+          <tr class="mmtw-table-row{% if config.colored %} colored{% endif %}"{% if config.fade %} style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
+            <td class="mmtw-col-day">
+              {% if (currentStep == 0) and config.ignoreToday == false and config.absoluteDates == false %}
+                {{ "TODAY" | translate }}
+              {% elif (currentStep == 1) and config.ignoreToday == false and config.absoluteDates == false %}
+                {{ "TOMORROW" | translate }}
+              {% else %}
+                {{ f.date.format(config.forecastDateFormat) }}
+              {% endif %}
+            </td>
+            <td class="mmtw-col-icon">
+              <span class="mmtw-icon-slot">
+                {% set mappedIconType = iconTypeMap[f.weatherType] or f.weatherType %}
+                {% set customIconType = mappedIconType if mappedIconType in ["01d", "01n", "02d", "02n", "03d", "03n", "04d", "04n", "09d", "09n", "10d", "10n", "11d", "11n", "13d", "13n", "50d", "50n"] else "03d" %}
+                {% if hasCustomIconSet %}
+                  <img class="mmtw-icon-img{% if iconSet == \"2a\" %} mmtw-icon-img-2a-compact{% endif %}" src="modules/MMT-WeatherOneTheme/icons/{{ iconSet }}/{{ customIconType }}.{{ iconFormat }}" alt="{{ customIconType }}">
+                {% else %}
+                  <span class="wi weathericon wi-{{ f.weatherType }} mmtw-icon"></span>
+                {% endif %}
+              </span>
+            </td>
+            <td class="mmtw-col-temp mmtw-min">{{ f.minTemperature | roundValue | unit("temperature") | decimalSymbol }}</td>
+            <td class="mmtw-col-temp mmtw-max">{{ f.maxTemperature | roundValue | unit("temperature") | decimalSymbol }}</td>
+            {% if config.showPrecipitationProbability %}
+              <td class="mmtw-col-metric">
+                {% if f.precipitationProbability is defined and f.precipitationProbability is not none %}
+                  <span class="wi wi-raindrop"></span>
+                  {{ f.precipitationProbability | unit('precip', '%') }}
+                {% else %}
+                  <span class="mmtw-empty">-</span>
+                {% endif %}
+              </td>
+            {% endif %}
+            {% if config.showPrecipitationAmount %}
+              <td class="mmtw-col-metric">
+                {% if f.precipitationAmount is defined and f.precipitationAmount is not none %}
+                  <span class="wi wi-umbrella"></span>
+                  {{ f.precipitationAmount | unit("precip", f.precipitationUnits) }}
+                {% else %}
+                  <span class="mmtw-empty">-</span>
+                {% endif %}
+              </td>
+            {% endif %}
+            {% if config.showUVIndex %}
+              <td class="mmtw-col-metric">
+                {% if f.uvIndex is defined and f.uvIndex is not none %}
+                  <span class="wi wi-hot"></span>
+                  {{ f.uvIndex }}
+                {% else %}
+                  <span class="mmtw-empty">-</span>
+                {% endif %}
+              </td>
+            {% endif %}
+          </tr>
+          {% set currentStep = currentStep + 1 %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="dimmed light small">{{ "LOADING" | translate }}</div>
+{% endif %}

@@ -1,0 +1,17 @@
+Weather Icons subset for MMT-WeatherOneTheme (`icons/mm`)
+
+Source repository:
+https://github.com/erikflowers/weather-icons
+
+This directory contains SVG files copied from the upstream Weather Icons project
+and renamed to OpenWeather-style codes (01d..50n) for theme compatibility.
+
+Upstream licensing (from Weather Icons README):
+- Weather Icons licensed under SIL OFL 1.1
+  http://scripts.sil.org/OFL
+- Code licensed under MIT License
+  http://opensource.org/licenses/mit-license.html
+- Documentation licensed under CC BY 3.0
+  http://creativecommons.org/licenses/by/3.0
+
+Only icon SVG assets are included here.
