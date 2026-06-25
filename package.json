@@ -1,9 +1,19 @@
 {
   "name": "mmt-weatheronetheme",
   "version": "0.1.0",
+  "keywords": [
+    "MagicMirror",
+    "weather"
+  ],
   "description": "Theme for MagicMirror weather module inspired by MMM-OneCallWeather.",
   "private": true,
   "scripts": {
-    "demo": "cd ../../ && MM_CONFIG_FILE=modules/MMT-WeatherOneTheme/demo.config.js node --run start:dev"
+    "demo": "cd ../../ && MM_CONFIG_FILE=modules/MMT-WeatherOneTheme/demo.config.js node --run start:dev",
+    "lint": "eslint . --ext .js,.mjs",
+    "lint:fix": "eslint . --ext .js,.mjs --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.5.0"
   }
 }
