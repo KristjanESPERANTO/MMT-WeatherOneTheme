@@ -18,6 +18,15 @@ cd ~/MagicMirror/modules
 git clone https://github.com/KristjanESPERANTO/MMT-WeatherOneTheme
 ```
 
+## Update
+
+To update, pull the latest changes from this repository:
+
+```sh
+cd ~/MagicMirror/modules/MMT-WeatherOneTheme
+git pull
+```
+
 ## Usage
 
 Use the normal `weather` module and point `themeDir` to this theme directory.
