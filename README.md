@@ -75,4 +75,4 @@ This theme includes multiple weather icon sets. Set `iconset` in your weather co
 
 ## License
 
-This theme is MIT licensed. See [LICENSE](LICENSE). For icon set licensing details, see the [Icon Gallery](https://kristjanesperanto.github.io/MMT-WeatherOneTheme/).
+This theme is MIT licensed. See [LICENSE.md](LICENSE.md). For icon set licensing details, see the [Icon Gallery](https://kristjanesperanto.github.io/MMT-WeatherOneTheme/).
