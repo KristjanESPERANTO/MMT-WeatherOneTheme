@@ -27,7 +27,7 @@ cd ~/MagicMirror/modules/MMT-WeatherOneTheme
 git pull
 ```
 
-## Usage
+## Configuration
 
 Use the normal `weather` module and point `themeDir` to this theme directory.
 
