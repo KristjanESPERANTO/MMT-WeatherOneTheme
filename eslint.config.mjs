@@ -1,6 +1,7 @@
+import { defineConfig } from 'eslint/config';
 import js from "@eslint/js";
 
-export default [
+export default defineConfig([
 	{
 		files: ["**/*.js", "**/*.mjs"],
 		languageOptions: {
@@ -18,4 +19,4 @@ export default [
 			"prefer-const": "error"
 		}
 	}
-];
+]);
