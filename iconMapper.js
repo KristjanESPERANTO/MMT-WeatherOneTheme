@@ -113,8 +113,17 @@ window.updateWeatherTheme = function (module) {
     if (!moduleElement) return;
 
     const weatherIcons = moduleElement.querySelectorAll(".wi.weathericon");
+
+    // Build all replacement images first (no DOM writes yet), then apply them
+    // in a single pass so the browser doesn't have to reflow between icons.
+    const replacements = []
     weatherIcons.forEach((icon) => {
-      const wiClass = Array.from(icon.classList).find((cls) => cls.startsWith("wi-"));
+      let wiClass
+      let contextClass
+      for (const cls of icon.classList) {
+        if (cls.startsWith("wi-")) wiClass = cls;
+        else if (cls in contextImageClass) contextClass = cls;
+      }
       if (!wiClass) return;
 
       const weatherType = wiClass.replace("wi-", "");
@@ -122,8 +131,6 @@ window.updateWeatherTheme = function (module) {
         || (weatherType.match(/^(01|02|03|04|09|10|11|13|50)[dn]$/) ? weatherType : "03d");
 
       const iconPath = `modules/MMT-WeatherOneTheme/icons/${iconSet}/${customIconType}.${iconFormat}`;
-
-      const contextClass = Array.from(icon.classList).find((cls) => cls in contextImageClass);
       const imageClass = contextImageClass[contextClass] || "mmtw-icon-img";
 
       const img = document.createElement("img");
@@ -133,7 +140,11 @@ window.updateWeatherTheme = function (module) {
         img.classList.add(context2aVariant[imageClass]);
       }
 
-      icon.replaceWith(img);
+      replacements.push([icon, img]);
     });
+
+    for (const [icon, img] of replacements) {
+      icon.replaceWith(img);
+    }
   }, renderDelay);
 };
