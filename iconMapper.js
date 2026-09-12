@@ -94,6 +94,18 @@ window.updateWeatherTheme = function (module) {
   const iconSet = module.mmtweatherIconSet || "2s";
   const iconFormat = module.mmtweatherIconFormat || (iconSet === "1s" ? "png" : "svg");
 
+  // Map the icon-font context class to the same image class the njk templates use,
+  // so the existing CSS sizing rules apply instead of being overridden inline.
+  const contextImageClass = {
+    "mmtw-current-icon": "mmtw-current-icon-img",
+    "mmtw-icon": "mmtw-icon-img",
+    "mmtw-hour-icon": "mmtw-icon-img"
+  };
+  const context2aVariant = {
+    "mmtw-current-icon-img": "mmtw-icon-img-2a-current",
+    "mmtw-icon-img": "mmtw-icon-img-2a-compact"
+  };
+
   // Wait for DOM update animation to finish, then replace weather icons with image assets.
   const renderDelay = Math.max(300, module.config.animationSpeed || 0) + 50;
   window.setTimeout(() => {
@@ -111,14 +123,15 @@ window.updateWeatherTheme = function (module) {
 
       const iconPath = `modules/MMT-WeatherOneTheme/icons/${iconSet}/${customIconType}.${iconFormat}`;
 
+      const contextClass = Array.from(icon.classList).find((cls) => cls in contextImageClass);
+      const imageClass = contextImageClass[contextClass] || "mmtw-icon-img";
+
       const img = document.createElement("img");
       img.src = iconPath;
-      img.className = "mmtw-icon-img";
-      img.style.height = "inherit";
-      img.style.width = "inherit";
-      img.style.objectFit = "contain";
-      img.style.display = "inline-block";
-      img.style.marginBottom = "2px";
+      img.className = imageClass;
+      if (iconSet === "2a" && context2aVariant[imageClass]) {
+        img.classList.add(context2aVariant[imageClass]);
+      }
 
       icon.replaceWith(img);
     });
