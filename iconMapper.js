@@ -88,9 +88,6 @@ window.initWeatherTheme = function (module) {
 };
 
 window.updateWeatherTheme = function (module) {
-  // Keep core weather render flow intact. Without this, modules can stay on "Loading ...".
-  module.updateDom(300);
-
   const iconSet = module.mmtweatherIconSet || "2s";
   const iconFormat = module.mmtweatherIconFormat || (iconSet === "1s" ? "png" : "svg");
 
@@ -106,9 +103,9 @@ window.updateWeatherTheme = function (module) {
     "mmtw-icon-img": "mmtw-icon-img-2a-compact"
   };
 
-  // Wait for DOM update animation to finish, then replace weather icons with image assets.
-  const renderDelay = Math.max(300, module.config.animationSpeed || 0) + 50;
-  window.setTimeout(() => {
+  // Keep core weather render flow intact. Without this, modules can stay on "Loading ...".
+  // The callback fires once the new DOM is actually in place, so we don't have to guess a delay.
+  module.updateDom(300, () => {
     const moduleElement = document.querySelector(`.module.${module.identifier}`);
     if (!moduleElement) return;
 
@@ -146,5 +143,5 @@ window.updateWeatherTheme = function (module) {
     for (const [icon, img] of replacements) {
       icon.replaceWith(img);
     }
-  }, renderDelay);
+  });
 };
