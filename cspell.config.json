@@ -1,0 +1,25 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "elif",
+    "endfor",
+    "endmacro",
+    "erikflowers",
+    "iconset",
+    "iconsets",
+    "Kristjan",
+    "MagicMirror",
+    "meteocons",
+    "mmtw",
+    "mmtweather",
+    "njk",
+    "openmeteo",
+    "precip",
+    "weathericon",
+    "weathericons",
+    "weatheronetheme"
+  ],
+  "ignorePaths": ["node_modules/**", "**/*.svg", "icons/**"],
+  "dictionaries": ["node"]
+}
