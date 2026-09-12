@@ -5,6 +5,7 @@
     "MagicMirror",
     "weather"
   ],
+  "type": "commonjs",
   "description": "Theme for MagicMirror weather module inspired by MMM-OneCallWeather.",
   "private": true,
   "scripts": {
