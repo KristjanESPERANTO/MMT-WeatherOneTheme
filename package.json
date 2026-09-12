@@ -7,14 +7,22 @@
   ],
   "type": "commonjs",
   "description": "Theme for MagicMirror weather module inspired by MMM-OneCallWeather.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KristjanESPERANTO/MMT-WeatherOneTheme.git"
+  },
+  "license": "MIT",
+  "author": "Kristjan ESPERANTO (https://github.com/KristjanESPERANTO)",
   "private": true,
   "scripts": {
     "demo": "cd ../../ && MM_CONFIG_FILE=modules/MMT-WeatherOneTheme/demo.config.js node --run start:dev",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "release": "commit-and-tag-version --config ./changelog.config.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "commit-and-tag-version": "^13.2.0",
     "eslint": "^10.10.0"
   }
 }
