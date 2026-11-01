@@ -27,6 +27,6 @@
     "@eslint/js": "^10.0.1",
     "commit-and-tag-version": "^13.2.0",
     "cspell": "^10.3.0",
-    "eslint": "^10.10.0"
+    "eslint": "^10.13.0"
   }
 }
